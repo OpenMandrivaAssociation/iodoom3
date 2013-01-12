@@ -11,6 +11,7 @@ Source1:	%{name}.png
 Patch0:		iodoom3-1.3.1.1304-datapath.patch
 BuildRequires:	imagemagick
 BuildRequires:	scons
+BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(openal)
