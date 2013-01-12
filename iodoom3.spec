@@ -18,6 +18,7 @@ BuildRequires:	pkgconfig(openal)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xxf86vm)
+BuildRequires:	pkgconfig(zlib)
 
 %description
 On November 22, 2011 id Software released the source code to Doom 3.
