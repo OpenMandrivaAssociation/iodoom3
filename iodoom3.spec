@@ -6,7 +6,7 @@ Group:		Games/Arcade
 License:	GPLv3+
 URL:		http://www.iodoom3.org
 # From git, see more at http://www.iodoom3.org/download/
-#Source0:	%{name}-%{version}.tar.bz2
+Source0:	%{name}-%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		iodoom3-1.3.1.1304-datapath.patch
 BuildRequires:	imagemagick
