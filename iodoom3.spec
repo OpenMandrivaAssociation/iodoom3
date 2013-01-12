@@ -9,6 +9,7 @@ URL:		http://www.iodoom3.org
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		iodoom3-1.3.1.1304-datapath.patch
+Patch1:		iodoom3-1.3.1.1304-x86_64.patch
 BuildRequires:	imagemagick
 BuildRequires:	scons
 BuildRequires:	pkgconfig(alsa)
@@ -39,6 +40,7 @@ Place "base" folder from the Doom 3 installation to:
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 sed -i s,"/usr/lib/libz.a","%{_libdir}/libz.a",g neo/sys/scons/SConscript.curl
 
 %build
