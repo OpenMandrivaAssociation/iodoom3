@@ -1,3 +1,25 @@
+diff -urN iodoom3-1.3.1.1304/neo/d3xp/gamesys/Class.h iodoom3-1.3.1.1304-patched/neo/d3xp/gamesys/Class.h
+--- iodoom3-1.3.1.1304/neo/d3xp/gamesys/Class.h	2013-01-12 13:27:51.000000000 +1100
++++ iodoom3-1.3.1.1304-patched/neo/d3xp/gamesys/Class.h	2013-01-13 00:57:48.535182554 +1100
+@@ -61,6 +61,7 @@
+ 
+ 	idEventArg()								{ type = D_EVENT_INTEGER; value = 0; };
+ 	idEventArg( int data )						{ type = D_EVENT_INTEGER; value = data; };
++	idEventArg( long int data )					{ type = D_EVENT_INTEGER; value = data; };
+ 	idEventArg( float data )					{ type = D_EVENT_FLOAT; value = *reinterpret_cast<int *>( &data ); };
+ 	idEventArg( idVec3 &data )					{ type = D_EVENT_VECTOR; value = reinterpret_cast<int>( &data ); };
+ 	idEventArg( const idStr &data )				{ type = D_EVENT_STRING; value = reinterpret_cast<int>( data.c_str() ); };
+diff -urN iodoom3-1.3.1.1304/neo/game/gamesys/Class.h iodoom3-1.3.1.1304-patched/neo/game/gamesys/Class.h
+--- iodoom3-1.3.1.1304/neo/game/gamesys/Class.h	2013-01-12 13:27:51.000000000 +1100
++++ iodoom3-1.3.1.1304-patched/neo/game/gamesys/Class.h	2013-01-13 00:58:07.292715455 +1100
+@@ -61,6 +61,7 @@
+ 
+ 	idEventArg()								{ type = D_EVENT_INTEGER; value = 0; };
+ 	idEventArg( int data )						{ type = D_EVENT_INTEGER; value = data; };
++	idEventArg( long int data )					{ type = D_EVENT_INTEGER; value = data; };
+ 	idEventArg( float data )					{ type = D_EVENT_FLOAT; value = *reinterpret_cast<int *>( &data ); };
+ 	idEventArg( idVec3 &data )					{ type = D_EVENT_VECTOR; value = reinterpret_cast<int>( &data ); };
+ 	idEventArg( const idStr &data )				{ type = D_EVENT_STRING; value = reinterpret_cast<int>( data.c_str() ); };
 diff -urN iodoom3-1.3.1.1304/neo/SConstruct iodoom3-1.3.1.1304-patched/neo/SConstruct
 --- iodoom3-1.3.1.1304/neo/SConstruct	2013-01-12 13:27:51.000000000 +1100
 +++ iodoom3-1.3.1.1304-patched/neo/SConstruct	2013-01-13 00:34:16.864218558 +1100
@@ -11,3 +33,43 @@ diff -urN iodoom3-1.3.1.1304/neo/SConstruct iodoom3-1.3.1.1304-patched/neo/SCons
  
  if ( g_sdk or SDK != '0' ):
  	BASECPPFLAGS.append( '-D_D3SDK' )
+diff -urN iodoom3-1.3.1.1304/neo/sys/linux/main.cpp iodoom3-1.3.1.1304-patched/neo/sys/linux/main.cpp
+--- iodoom3-1.3.1.1304/neo/sys/linux/main.cpp	2013-01-12 13:27:51.000000000 +1100
++++ iodoom3-1.3.1.1304-patched/neo/sys/linux/main.cpp	2013-01-13 01:01:17.625546606 +1100
+@@ -256,6 +256,21 @@
+ 						  "pop %%ebx\n"
+ 						  : "=r" (lo), "=r" (hi) );
+ 	return (double) lo + (double) 0xFFFFFFFF * hi;
++#elif defined( __x86_64__ )
++	unsigned long lo, hi;
++
++	__asm__ __volatile__ (
++						  "push %%rbx\n"			\
++						  "push %%rax\n"			\
++						  "xor %%rax,%%rax\n"		\
++						  "cpuid\n"					\
++						  "rdtsc\n"					\
++						  "mov %%rax,%0\n"			\
++						  "mov %%rdx,%1\n"			\
++						  "pop %%rax\n"				\
++						  "pop %%rbx\n"
++						  : "=r" (lo), "=r" (hi) );
++	return (double) lo + (double) 0xFFFFFFFF * hi; 
+ #else
+ #error unsupported CPU
+ #endif
+diff -urN iodoom3-1.3.1.1304/neo/sys/sys_public.h iodoom3-1.3.1.1304-patched/neo/sys/sys_public.h
+--- iodoom3-1.3.1.1304/neo/sys/sys_public.h	2013-01-12 13:27:51.000000000 +1100
++++ iodoom3-1.3.1.1304-patched/neo/sys/sys_public.h	2013-01-13 01:02:17.012150768 +1100
+@@ -108,6 +108,11 @@
+ 	#define BUILD_OS_ID					2
+ 	#define CPUSTRING					"x86"
+ 	#define CPU_EASYARGS				1
++#elif __x86_64__
++	#define  BUILD_STRING				"linux-x86_64"
++	#define BUILD_OS_ID					2
++	#define CPUSTRING					"x86_64"
++	#define CPU_EASYARGS				1
+ #elif defined(__ppc__)
+ 	#define	BUILD_STRING				"linux-ppc"
+ 	#define CPUSTRING					"ppc"

@@ -9,6 +9,7 @@ URL:		http://www.iodoom3.org
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		iodoom3-1.3.1.1304-datapath.patch
+# https://github.com/albertz/iodoom3/commit/350616aab643eceb106631af81d3bb960a0dcb70
 Patch1:		iodoom3-1.3.1.1304-x86_64.patch
 BuildRequires:	imagemagick
 BuildRequires:	scons
