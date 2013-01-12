@@ -6,16 +6,21 @@ Group:		Games/Arcade
 License:	GPLv3+
 URL:		http://www.iodoom3.org
 # From git, see more at http://www.iodoom3.org/download/
-#Source0:	%{name}-%{version}.tar.bz2
+Source0:	%{name}-%{version}.tar.bz2
 Source1:	%{name}.png
 Patch0:		iodoom3-1.3.1.1304-datapath.patch
+# https://github.com/albertz/iodoom3/commit/350616aab643eceb106631af81d3bb960a0dcb70
+Patch1:		iodoom3-1.3.1.1304-x86_64.patch
 BuildRequires:	imagemagick
 BuildRequires:	scons
+BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(openal)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xxf86vm)
+BuildRequires:	pkgconfig(zlib)
 
 %description
 On November 22, 2011 id Software released the source code to Doom 3.
@@ -36,6 +41,8 @@ Place "base" folder from the Doom 3 installation to:
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+sed -i s,"/usr/lib/libz.a","%{_libdir}/libz.a",g neo/sys/scons/SConscript.curl
 
 %build
 pushd neo
