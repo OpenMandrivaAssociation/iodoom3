@@ -39,6 +39,7 @@ Place "base" folder from the Doom 3 installation to:
 %prep
 %setup -q
 %patch0 -p1
+sed -i s,"/usr/lib/libz.a","%{_libdir}/libz.a",g neo/sys/scons/SConscript.curl
 
 %build
 pushd neo
