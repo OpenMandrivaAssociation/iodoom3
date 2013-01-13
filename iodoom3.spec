@@ -1,6 +1,6 @@
 Name:		iodoom3
 Version:	1.3.1.1304
-Release:	1
+Release:	2
 Summary:	Doom 3 engine
 Group:		Games/Arcade
 License:	GPLv3+
@@ -43,6 +43,8 @@ Place "base" folder from the Doom 3 installation to:
 %patch0 -p1
 %patch1 -p1
 sed -i s,"/usr/lib/libz.a","%{_libdir}/libz.a",g neo/sys/scons/SConscript.curl
+# Ask CD-KEY only for network game
+sed -i s,"ID_ENFORCE_KEY 1","ID_ENFORCE_KEY 0",g neo/framework/BuildDefines.h
 
 %build
 pushd neo
