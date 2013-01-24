@@ -1,6 +1,6 @@
 Name:		iodoom3
 Version:	1.3.1.1304
-Release:	2
+Release:	3
 Summary:	Doom 3 engine
 Group:		Games/Arcade
 License:	GPLv3+
@@ -21,6 +21,8 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xxf86vm)
 BuildRequires:	pkgconfig(zlib)
+# 64 bit build is too buggy, segfaults at start and requires lots of patching
+ExclusiveArch:	%{ix86}
 
 %description
 On November 22, 2011 id Software released the source code to Doom 3.
@@ -41,7 +43,6 @@ Place "base" folder from the Doom 3 installation to:
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 sed -i s,"/usr/lib/libz.a","%{_libdir}/libz.a",g neo/sys/scons/SConscript.curl
 # Ask CD-KEY only for network game
 sed -i s,"ID_ENFORCE_KEY 1","ID_ENFORCE_KEY 0",g neo/framework/BuildDefines.h
