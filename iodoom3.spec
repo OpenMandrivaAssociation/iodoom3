@@ -21,6 +21,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xxf86vm)
 BuildRequires:	pkgconfig(zlib)
+Provides:	doom3 = 1.3.1
 # 64 bit build is too buggy, segfaults at start and requires lots of patching
 ExclusiveArch:	%{ix86}
 
