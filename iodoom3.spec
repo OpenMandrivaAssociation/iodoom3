@@ -1,6 +1,6 @@
 Name:		iodoom3
 Version:	1.3.1.1304
-Release:	3
+Release:	4
 Summary:	Doom 3 engine
 Group:		Games/Arcade
 License:	GPLv3+
